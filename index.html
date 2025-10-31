@@ -1,0 +1,5429 @@
+<html lang="en" class="scroll-smooth">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Centre for Innovation & Entrepreneurship</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+
+        body {
+
+            box-sizing: border-box;
+
+        }
+
+       
+
+        /* Loading Screen Styles */
+
+        .loading-screen {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: white;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 9999;
+
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+
+        }
+
+       
+
+        .loading-screen.fade-out {
+
+            opacity: 0;
+
+            visibility: hidden;
+
+        }
+
+       
+
+        .loading-logo {
+
+            width: 96px;
+
+            height: 96px;
+
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+
+            border-radius: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-weight: bold;
+
+            font-size: 2rem;
+
+            margin-bottom: 2rem;
+
+            animation: logoFloat 3s ease-in-out infinite;
+
+            box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
+
+        }
+
+       
+
+        .loading-text {
+
+            color: #1f2937;
+
+            font-size: 1.5rem;
+
+            font-weight: 600;
+
+            margin-bottom: 1rem;
+
+            opacity: 0;
+
+            animation: textFadeIn 0.8s ease-out 0.5s forwards;
+
+        }
+
+       
+
+        .loading-subtitle {
+
+            color: #6b7280;
+
+            font-size: 1rem;
+
+            text-align: center;
+
+            max-width: 400px;
+
+            opacity: 0;
+
+            animation: textFadeIn 0.8s ease-out 1s forwards;
+
+        }
+
+       
+
+        .loading-spinner {
+
+            width: 40px;
+
+            height: 40px;
+
+            border: 3px solid rgba(20, 184, 166, 0.3);
+
+            border-top: 3px solid #14b8a6;
+
+            border-radius: 50%;
+
+            animation: spin 1s linear infinite;
+
+            margin-top: 2rem;
+
+            opacity: 0;
+
+            animation: spinnerFadeIn 0.8s ease-out 1.5s forwards, spin 1s linear 1.5s infinite;
+
+        }
+
+       
+
+        @keyframes logoFloat {
+
+            0%, 100% {
+
+                transform: translateY(0px) scale(1);
+
+            }
+
+            50% {
+
+                transform: translateY(-10px) scale(1.05);
+
+            }
+
+        }
+
+       
+
+        @keyframes textFadeIn {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(20px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+       
+
+        @keyframes spinnerFadeIn {
+
+            from {
+
+                opacity: 0;
+
+            }
+
+            to {
+
+                opacity: 1;
+
+            }
+
+        }
+
+       
+
+        @keyframes spin {
+
+            0% { transform: rotate(0deg); }
+
+            100% { transform: rotate(360deg); }
+
+        }
+
+       
+
+        /* Hide main content initially */
+
+        .main-content {
+
+            opacity: 0;
+
+            transition: opacity 0.8s ease-in;
+
+        }
+
+       
+
+        .main-content.show {
+
+            opacity: 1;
+
+        }
+
+       
+
+        @keyframes fadeInUp {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateY(30px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateY(0);
+
+            }
+
+        }
+
+       
+
+        @keyframes slideIn {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateX(-20px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateX(0);
+
+            }
+
+        }
+
+       
+
+        @keyframes fadeInLeft {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateX(-50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateX(0);
+
+            }
+
+        }
+
+       
+
+        @keyframes fadeInRight {
+
+            from {
+
+                opacity: 0;
+
+                transform: translateX(50px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: translateX(0);
+
+            }
+
+        }
+
+       
+
+        .animate-fade-in-up {
+
+            animation: fadeInUp 0.8s ease-out forwards;
+
+        }
+
+       
+
+        .animate-slide-in {
+
+            animation: slideIn 0.6s ease-out forwards;
+
+        }
+
+       
+
+        .animate-fade-in-left {
+
+            animation: fadeInLeft 0.8s ease-out forwards;
+
+        }
+
+       
+
+        .animate-fade-in-right {
+
+            animation: fadeInRight 0.8s ease-out forwards;
+
+        }
+
+       
+
+        .animate-on-scroll {
+
+            opacity: 0;
+
+            transform: translateY(30px);
+
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+            will-change: opacity, transform;
+
+        }
+
+       
+
+        .animate-on-scroll.animate-fade-in-up {
+
+            opacity: 1;
+
+            transform: translateY(0);
+
+        }
+
+       
+
+        .animate-on-scroll.animated {
+
+            opacity: 1;
+
+            transform: translateY(0);
+
+        }
+
+       
+
+        /* Smooth scrolling for the entire page */
+
+        html {
+
+            scroll-behavior: smooth;
+
+        }
+
+       
+
+        /* Prevent layout shifts and white flashes */
+
+        * {
+
+            backface-visibility: hidden;
+
+            -webkit-backface-visibility: hidden;
+
+        }
+
+       
+
+        /* Optimize rendering performance */
+
+        .animate-on-scroll,
+
+        .card-hover {
+
+            transform: translateZ(0);
+
+            -webkit-transform: translateZ(0);
+
+        }
+
+       
+
+        .slider-container {
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+       
+
+        .slider-track {
+
+            display: flex;
+
+            transition: transform 0.5s ease-in-out;
+
+        }
+
+       
+
+        .slider-item {
+
+            min-width: 100%;
+
+            flex-shrink: 0;
+
+        }
+
+       
+
+        .gradient-overlay {
+
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.9), rgba(6, 182, 212, 0.8));
+
+        }
+
+       
+
+        .card-hover {
+
+            transition: all 0.3s ease;
+
+        }
+
+       
+
+        .card-hover:hover {
+
+            transform: translateY(-8px);
+
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+        }
+
+       
+
+        .logo-placeholder {
+
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-weight: bold;
+
+        }
+
+       
+
+        .icon-pulse {
+
+            animation: pulse 2s infinite;
+
+        }
+
+       
+
+        @keyframes pulse {
+
+            0% {
+
+                transform: scale(1);
+
+            }
+
+            50% {
+
+                transform: scale(1.05);
+
+            }
+
+            100% {
+
+                transform: scale(1);
+
+            }
+
+        }
+
+    .icon-pulse {
+
+        animation: pulse 2s infinite;
+
+    }
+
+ 
+
+    .nav-link {
+
+        cursor: pointer;
+
+        user-select: none;
+
+    }
+
+ 
+
+    nav a, .nav-link {
+
+        transition: all 0.3s ease;
+
+   }
+
+ 
+
+    nav.fixed {
+
+        width: 100%;
+
+        left: 0;
+
+        right: 0;
+
+    }
+
+   
+
+    nav .max-w-7xl {
+
+        width: 100%;
+
+    }
+
+   
+
+    nav .flex.justify-between {
+
+        width: 100%;
+
+    }
+
+</style>
+
+</head>
+
+<body class="bg-white">
+
+    <!-- Loading Screen -->
+
+    <div id="loadingScreen" class="loading-screen">
+
+        <div class="loading-logo">
+
+            CIE
+
+        </div>
+
+        <div class="loading-text">Centre for Innovation and Entrepreneurship</div>
+
+        <div class="loading-subtitle">The Hang Seng University of Hong Kong</div>
+
+        <div class="loading-spinner"></div>
+
+    </div>
+
+ 
+
+    <!-- Main Content -->
+
+    <div id="mainContent" class="main-content">
+
+    <!-- Navigation -->
+
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex justify-between items-center h-16">
+
+                <div class="flex items-center">
+
+                    <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                        <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg icon-pulse">
+
+                            CIE
+
+                        </div>
+
+                    </button>
+
+                </div>
+
+                <div class="hidden md:flex space-x-8">
+
+                    <div class="relative group">
+
+                        <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                            About CIE
+
+                        </a>
+
+                        <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                            <div class="p-2">
+
+                                <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    <div class="text-sm text-gray-500">Who we are and what we do</div>
+
+                                </a>
+
+                                <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    <div class="text-sm text-gray-500">From our Director and Associate Director</div>
+
+                                </a>
+
+                                <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">Our Team</div>
+
+                                    <div class="text-sm text-gray-500">Meet our dedicated professionals</div>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                    <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                    <div class="relative group">
+
+                        <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                            Past Events
+
+                        </a>
+
+                        <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                            <div class="p-2">
+
+                                <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">AY2025/26</div>
+
+                                </a>
+
+                                <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">AY2024/25</div>
+
+                                </a>
+
+                                <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                    <div class="font-semibold text-lg">AY2023/24</div>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+ 
+
+    <!-- Hero Slider -->
+
+    <section id="home" class="relative h-screen">
+
+        <div class="slider-container h-full">
+
+            <div class="slider-track h-full" id="heroSlider">
+
+                <div class="slider-item relative">
+
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Innovation team collaboration" class="absolute inset-0 w-full h-full object-cover" onerror=“handleImageError(this)”>
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-teal-500/80 to-cyan-500/80"></div>
+
+                    <div class="relative h-full flex items-center justify-center text-white">
+
+                        <div class="text-center animate-fade-in-up">
+
+                            <h1 class="text-5xl md:text-7xl font-bold mb-6">Innovation Hub</h1>
+
+                            <p class="text-xl md:text-2xl mb-8">Empowering the next generation of entrepreneurs</p>
+
+                            <button class="bg-white text-teal-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+
+                                Explore Now
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="slider-item relative">
+
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Modern startup workspace" class="absolute inset-0 w-full h-full object-cover" onerror=“handleImageError(this)”>
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/80 to-blue-500/80"></div>
+
+                    <div class="relative h-full flex items-center justify-center text-white">
+
+                        <div class="text-center">
+
+                            <h1 class="text-5xl md:text-7xl font-bold mb-6">Build Tomorrow</h1>
+
+                            <p class="text-xl md:text-2xl mb-8">Where ideas become reality</p>
+
+                            <button class="bg-white text-cyan-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+
+                                Join Us
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="slider-item relative">
+
+                    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Business meeting and planning" class="absolute inset-0 w-full h-full object-cover" onerror=“handleImageError(this)”>
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-teal-600/80 to-emerald-500/80"></div>
+
+                    <div class="relative h-full flex items-center justify-center text-white">
+
+                        <div class="text-center">
+
+                            <h1 class="text-5xl md:text-7xl font-bold mb-6">Start Your Journey</h1>
+
+                            <p class="text-xl md:text-2xl mb-8">Innovation starts here</p>
+
+                            <button class="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+
+                                Get Started
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+
+            <button class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" onclick="goToSlide(0, 'heroSlider')"></button>
+
+            <button class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" onclick="goToSlide(1, 'heroSlider')"></button>
+
+            <button class="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-colors" onclick="goToSlide(2, 'heroSlider')"></button>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Recent Events Slider -->
+
+    <section class="py-20 bg-gray-50">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-16 animate-on-scroll">
+
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Recent Event Past Events</h2>
+
+                <p class="text-xl text-gray-600">Celebrating our latest achievements and milestones</p>
+
+            </div>
+
+           
+
+            <div class="slider-container animate-on-scroll">
+
+                <div class="slider-track" id="eventsSlider">
+
+                    <div class="slider-item px-4">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow" onclick="showNewsPage('2024')">
+
+                            <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80" alt="Startup pitch presentation" class="h-64 w-full object-cover" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+                            <div class="h-64 bg-gradient-to-br from-teal-400 to-cyan-500" style="display: none;"></div>
+
+                            <div class="p-8">
+
+                                <h3 class="text-2xl font-bold mb-4">Startup Pitch Competition 2024</h3>
+
+                                <p class="text-gray-600 mb-4">Over 50 innovative startups competed for the grand prize in our annual pitch competition.</p>
+
+                                <span class="text-teal-600 font-semibold">March 15, 2024</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="slider-item px-4">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow" onclick="showNewsPage('2024')">
+
+                            <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Workshop collaboration session" class="h-64 w-full object-cover" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+                            <div class="h-64 bg-gradient-to-br from-cyan-400 to-blue-500" style="display: none;"></div>
+
+                            <div class="p-8">
+
+                                <h3 class="text-2xl font-bold mb-4">Innovation Workshop Series</h3>
+
+                                <p class="text-gray-600 mb-4">A week-long intensive workshop on design thinking and product development.</p>
+
+                                <span class="text-cyan-600 font-semibold">February 20, 2024</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="slider-item px-4">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow" onclick="showNewsPage('2024')">
+
+                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Technology conference presentation" class="h-64 w-full object-cover" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+                            <div class="h-64 bg-gradient-to-br from-emerald-400 to-teal-500" style="display: none;"></div>
+
+                            <div class="p-8">
+
+                                <h3 class="text-2xl font-bold mb-4">Tech Entrepreneur Summit</h3>
+
+                                <p class="text-gray-600 mb-4">Industry leaders shared insights on the future of technology and entrepreneurship.</p>
+
+                                <span class="text-emerald-600 font-semibold">January 10, 2024</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+           
+
+            <div class="flex justify-center mt-8 space-x-2">
+
+                <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-teal-500 transition-colors" onclick="goToSlide(0, 'eventsSlider')"></button>
+
+                <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-teal-500 transition-colors" onclick="goToSlide(1, 'eventsSlider')"></button>
+
+                <button class="w-3 h-3 rounded-full bg-gray-300 hover:bg-teal-500 transition-colors" onclick="goToSlide(2, 'eventsSlider')"></button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Upcoming Events Grid -->
+
+    <section id="events" class="py-20">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-16 animate-on-scroll">
+
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Upcoming News and Activities</h2>
+
+                <p class="text-xl text-gray-600">Don't miss these exciting opportunities</p>
+
+            </div>
+
+           
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-on-scroll">
+
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" onclick="showEventsPage()">
+
+                    <div class="h-48 bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
+
+                        <div class="text-white text-center">
+
+                            <div class="text-3xl font-bold">APR</div>
+
+                            <div class="text-5xl font-bold">25</div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-6">
+
+                        <h3 class="text-xl font-bold mb-2">AI & Machine Learning Workshop</h3>
+
+                        <p class="text-gray-600 mb-4">Learn the fundamentals of AI and its applications in business.</p>
+
+                        <button class="text-teal-600 font-semibold hover:text-teal-700">Learn More →</button>
+
+                    </div>
+
+                </div>
+
+               
+
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" onclick="showEventsPage()">
+
+                    <div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+
+                        <div class="text-white text-center">
+
+                            <div class="text-3xl font-bold">MAY</div>
+
+                            <div class="text-5xl font-bold">08</div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-6">
+
+                        <h3 class="text-xl font-bold mb-2">Venture Capital Networking</h3>
+
+                        <p class="text-gray-600 mb-4">Connect with investors and funding opportunities.</p>
+
+                        <button class="text-cyan-600 font-semibold hover:text-cyan-700">Learn More →</button>
+
+                    </div>
+
+                </div>
+
+               
+
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer" onclick="showEventsPage()">
+
+                    <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+
+                        <div class="text-white text-center">
+
+                            <div class="text-3xl font-bold">MAY</div>
+
+                            <div class="text-5xl font-bold">20</div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="p-6">
+
+                        <h3 class="text-xl font-bold mb-2">Sustainable Innovation Forum</h3>
+
+                        <p class="text-gray-600 mb-4">Exploring green technology and sustainable business models.</p>
+
+                        <button class="text-emerald-600 font-semibold hover:text-emerald-700">Learn More →</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Startup Stories -->
+
+    <section id="startups" class="py-20 bg-gray-50">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-16 animate-on-scroll">
+
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Innovation Success Stories</h2>
+
+                <p class="text-xl text-gray-600">Supporting entrepreneurs on their journey to success</p>
+
+            </div>
+
+           
+
+            <!-- Main Content Grid -->
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-16 animate-on-scroll">
+
+                <!-- Left Side - Stories -->
+
+                <div class="space-y-8">
+
+                    <!-- Story 1 -->
+
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-teal-500 card-hover cursor-pointer" onclick="showStartupStoriesPage()">
+
+                        <div class="flex items-start space-x-4">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+
+                                GT
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <div class="flex items-center mb-2">
+
+                                    <h3 class="text-xl font-bold text-gray-900">GreenTech Solutions</h3>
+
+                                    <span class="ml-3 px-3 py-1 bg-teal-100 text-teal-700 text-sm rounded-full">Sustainable Energy</span>
+
+                                </div>
+
+                                <p class="text-gray-700 leading-relaxed italic">"The innovation centre provided us with the resources and mentorship to develop our solar panel efficiency technology. We've successfully launched our first product and are making a real impact!"</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+ 
+
+                    <!-- Story 2 -->
+
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-cyan-500 card-hover cursor-pointer" onclick="showStartupStoriesPage()">
+
+                        <div class="flex items-start space-x-4">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+
+                                MH
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <div class="flex items-center mb-2">
+
+                                    <h3 class="text-xl font-bold text-gray-900">MedHealth AI</h3>
+
+                                    <span class="ml-3 px-3 py-1 bg-cyan-100 text-cyan-700 text-sm rounded-full">Healthcare Tech</span>
+
+                                </div>
+
+                                <p class="text-gray-700 leading-relaxed italic">"From a simple idea to a working prototype in 6 months. The centre's guidance and collaborative environment made it possible to develop innovative patient care solutions."</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+ 
+
+                <!-- Right Side - Stats & Visual -->
+
+                <div class="relative">
+
+                    <div class="absolute inset-0 bg-gradient-to-br from-teal-500/10 to-cyan-500/10 rounded-3xl transform rotate-2"></div>
+
+                    <div class="relative bg-white rounded-3xl p-8 shadow-xl">
+
+                        <div class="text-center mb-8">
+
+                            <div class="text-6xl mb-4">🌟</div>
+
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Our Impact</h3>
+
+                            <p class="text-gray-600">Growing together, one innovation at a time</p>
+
+                        </div>
+
+                       
+
+                        <div class="grid grid-cols-2 gap-6">
+
+                            <div class="text-center p-4 bg-teal-50 rounded-xl">
+
+                                <div class="text-3xl font-bold text-teal-600 mb-1">12</div>
+
+                                <p class="text-sm text-gray-600">Active Projects</p>
+
+                            </div>
+
+                            <div class="text-center p-4 bg-cyan-50 rounded-xl">
+
+                                <div class="text-3xl font-bold text-cyan-600 mb-1">3</div>
+
+                                <p class="text-sm text-gray-600">Years Strong</p>
+
+                            </div>
+
+                            <div class="text-center p-4 bg-emerald-50 rounded-xl">
+
+                                <div class="text-3xl font-bold text-emerald-600 mb-1">8</div>
+
+                                <p class="text-sm text-gray-600">Successful Launches</p>
+
+                            </div>
+
+                            <div class="text-center p-4 bg-blue-50 rounded-xl">
+
+                                <div class="text-3xl font-bold text-blue-600 mb-1">100%</div>
+
+                                <p class="text-sm text-gray-600">Commitment</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+ 
+
+            <!-- Bottom Section - Support Features -->
+
+            <div class="bg-white rounded-3xl p-8 shadow-lg animate-on-scroll">
+
+                <h3 class="text-2xl font-bold text-center text-gray-900 mb-8">How We Support Innovation</h3>
+
+                <div class="grid md:grid-cols-3 gap-8">
+
+                    <div class="text-center">
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+
+                            💡
+
+                        </div>
+
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Mentorship</h4>
+
+                        <p class="text-gray-600">Expert guidance from industry professionals and successful entrepreneurs</p>
+
+                    </div>
+
+                    <div class="text-center">
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+
+                            🛠️
+
+                        </div>
+
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Resources</h4>
+
+                        <p class="text-gray-600">Access to workspace, equipment, and development tools</p>
+
+                    </div>
+
+                    <div class="text-center">
+
+                        <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+
+                            🤝
+
+                        </div>
+
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Community</h4>
+
+                        <p class="text-gray-600">Connect with like-minded innovators and potential collaborators</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Partners -->
+
+    <section id="partners" class="py-20">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center mb-16 animate-on-scroll">
+
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Partners</h2>
+
+                <p class="text-xl text-gray-600">Collaborating with industry leaders</p>
+
+            </div>
+
+           
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center animate-on-scroll">
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 1</div>
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 2</div>
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 3</div>
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 4</div>
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 5</div>
+
+                <div class="logo-placeholder h-20 text-sm">PARTNER 6</div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Contact -->
+
+    <section id="contact" class="py-20 bg-gray-900 text-white">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="grid md:grid-cols-2 gap-12">
+
+                <div class="animate-on-scroll">
+
+                    <h2 class="text-4xl font-bold mb-6">Get In Touch</h2>
+
+                    <p class="text-xl text-gray-300 mb-8">Ready to start your innovation journey? We're here to help.</p>
+
+                   
+
+                    <div class="space-y-4">
+
+                        <div>
+
+                            <div class="font-semibold mb-1">Centre for Innovation and Entrepreneurship</div>
+
+                            <div class="text-gray-300">Room N002, G/F, Lo Hui Kit San Building (Block N), Yuen Campus</div>
+
+                            <div class="text-gray-300">The Hang Seng University of Hong Kong</div>
+
+                            <div class="text-gray-300">Hang Shin Link, Siu Lek Yuen, Shatin, N.T., Hong Kong</div>
+
+                        </div>
+
+                        <div>
+
+                            <span>+852 3963 5608</span>
+
+                        </div>
+
+                        <div>
+
+                            <span>cie@hsu.edu.hk</span>
+
+                        </div>
+
+                        <div class="flex items-center space-x-4 mt-6">
+
+                            <a href="https://www.facebook.com/profile.php?id=." target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors">
+
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+
+                                </svg>
+
+                            </a>
+
+                            <a href="https://www.instagram.com/hsuhk.cie/?next=%2F" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full hover:from-purple-600 hover:to-pink-600 transition-colors">
+
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+
+                                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447c0-1.297.49-2.448 1.297-3.323C5.902 8.198 7.053 7.708 8.35 7.708c1.297 0 2.448.49 3.323 1.297c.897.897 1.387 2.048 1.387 3.345c0 1.297-.49 2.448-1.297 3.323c-.897.897-2.048 1.387-3.345 1.387zm7.718-7.718c-.49 0-.897-.408-.897-.897s.408-.897.897-.897s.897.408.897.897s-.408.897-.897.897zm-3.671 7.718c-2.447 0-4.406-1.959-4.406-4.406s1.959-4.406 4.406-4.406s4.406 1.959 4.406 4.406s-1.959 4.406-4.406 4.406z"/>
+
+                                </svg>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+               
+
+                <div class="bg-gray-800 p-8 rounded-2xl animate-on-scroll">
+
+                    <form onsubmit="handleSubmit(event)">
+
+                        <div class="mb-6">
+
+                            <label for="name" class="block text-sm font-medium mb-2">Name</label>
+
+                            <input type="text" id="name" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none">
+
+                        </div>
+
+                        <div class="mb-6">
+
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+
+                            <input type="email" id="email" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none">
+
+                        </div>
+
+                        <div class="mb-6">
+
+                            <label for="message" class="block text-sm font-medium mb-2">Message</label>
+
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none"></textarea>
+
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-teal-500 to-cyan-500 py-3 rounded-lg font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all">
+
+                            Send Message
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+ 
+
+    <!-- Startup Stories Page -->
+
+    <div id="startupStoriesPage" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-teal-600 font-semibold">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Start-up Stories</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">Inspiring journeys of innovation and entrepreneurship</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- Featured Success Stories -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Success Stories</h2>
+
+                        <p class="text-xl text-gray-600">Celebrating our entrepreneurs' achievements</p>
+
+                    </div>
+
+                   
+
+                    <div class="space-y-12">
+
+                        <!-- Story 1 -->
+
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+                            <div class="md:flex">
+
+                                <div class="md:w-1/3 h-64 relative overflow-hidden">
+
+                                    <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Solar panel technology" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                    <div class="absolute inset-0 bg-gradient-to-br from-teal-500/80 to-cyan-500/80 flex items-center justify-center" style="display: none;">
+
+                                        <div class="text-white text-center">
+
+                                            <div class="text-6xl font-bold mb-2">GT</div>
+
+                                            <div class="text-xl">GreenTech Solutions</div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="md:w-2/3 p-8">
+
+                                    <div class="flex items-center mb-4">
+
+                                        <span class="px-3 py-1 bg-teal-100 text-teal-700 text-sm rounded-full mr-3">Sustainable Energy</span>
+
+                                        <span class="text-gray-500">Founded 2023</span>
+
+                                    </div>
+
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Revolutionizing Solar Panel Efficiency</h3>
+
+                                    <p class="text-gray-700 leading-relaxed mb-6">
+
+                                        "The innovation centre provided us with the resources and mentorship to develop our solar panel efficiency technology. We've successfully launched our first product and are making a real impact in renewable energy. Our breakthrough algorithm increases solar panel efficiency by 25%."
+
+                                    </p>
+
+                                    <div class="grid grid-cols-3 gap-4 mb-6">
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-teal-600">$2M</div>
+
+                                            <div class="text-sm text-gray-600">Funding Raised</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-teal-600">15</div>
+
+                                            <div class="text-sm text-gray-600">Team Members</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-teal-600">500+</div>
+
+                                            <div class="text-sm text-gray-600">Installations</div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <button class="text-teal-600 font-semibold hover:text-teal-700">Read Full Story →</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <!-- Story 2 -->
+
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+                            <div class="md:flex md:flex-row-reverse">
+
+                                <div class="md:w-1/3 h-64 relative overflow-hidden">
+
+                                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Medical AI technology" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/80 to-blue-500/80 flex items-center justify-center" style="display: none;">
+
+                                        <div class="text-white text-center">
+
+                                            <div class="text-6xl font-bold mb-2">MH</div>
+
+                                            <div class="text-xl">MedHealth AI</div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="md:w-2/3 p-8">
+
+                                    <div class="flex items-center mb-4">
+
+                                        <span class="px-3 py-1 bg-cyan-100 text-cyan-700 text-sm rounded-full mr-3">Healthcare Tech</span>
+
+                                        <span class="text-gray-500">Founded 2022</span>
+
+                                    </div>
+
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">AI-Powered Patient Care Solutions</h3>
+
+                                    <p class="text-gray-700 leading-relaxed mb-6">
+
+                                        "From a simple idea to a working prototype in 6 months. The centre's guidance and collaborative environment made it possible to develop innovative patient care solutions. Our AI system now helps doctors make faster, more accurate diagnoses."
+
+                                    </p>
+
+                                    <div class="grid grid-cols-3 gap-4 mb-6">
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">$1.5M</div>
+
+                                            <div class="text-sm text-gray-600">Series A</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">12</div>
+
+                                            <div class="text-sm text-gray-600">Hospitals</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">10K+</div>
+
+                                            <div class="text-sm text-gray-600">Patients Helped</div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <button class="text-cyan-600 font-semibold hover:text-cyan-700">Read Full Story →</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- More Stories Grid -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">More Success Stories</h2>
+
+                        <p class="text-xl text-gray-600">Discover more inspiring entrepreneurial journeys</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-4xl font-bold">FT</div>
+
+                                    <div class="text-lg">FinTech Pro</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm rounded-full">Financial Technology</span>
+
+                                <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">Digital Payment Solutions</h3>
+
+                                <p class="text-gray-600 mb-4">Revolutionizing mobile payments for small businesses across Asia.</p>
+
+                                <button class="text-emerald-600 font-semibold hover:text-emerald-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-4xl font-bold">ED</div>
+
+                                    <div class="text-lg">EduTech Hub</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">Education Technology</span>
+
+                                <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">Interactive Learning Platform</h3>
+
+                                <p class="text-gray-600 mb-4">Making quality education accessible through innovative online platforms.</p>
+
+                                <button class="text-blue-600 font-semibold hover:text-blue-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-4xl font-bold">SF</div>
+
+                                    <div class="text-lg">Smart Farm</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm rounded-full">AgriTech</span>
+
+                                <h3 class="text-xl font-bold text-gray-900 mt-3 mb-2">IoT Agriculture Solutions</h3>
+
+                                <p class="text-gray-600 mb-4">Smart farming technology increasing crop yields by 40%.</p>
+
+                                <button class="text-purple-600 font-semibold hover:text-purple-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+
+ 
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Ecosystem Page -->
+
+    <div id="ecosystemPage" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-teal-600 font-semibold">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Ecosystem</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">External opportunities to accelerate your entrepreneurial journey</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- External Funding Opportunities -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">External Funding Opportunities</h2>
+
+                        <p class="text-xl text-gray-600">Discover funding sources to fuel your startup growth</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-teal-500">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                💰
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Government Grants</h3>
+
+                            <p class="text-gray-600 mb-4">Access various government funding schemes for startups and innovation projects.</p>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+
+                                <li>• Innovation and Technology Fund (ITF)</li>
+
+                                <li>• SME Funding Schemes</li>
+
+                                <li>• Technology Voucher Programme</li>
+
+                            </ul>
+
+                            <button class="text-teal-600 font-semibold hover:text-teal-700">Learn More →</button>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-cyan-500">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 icon-pop">
+
+                                🏦
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Venture Capital</h3>
+
+                            <p class="text-gray-600 mb-4">Connect with leading VC firms and angel investors in Hong Kong and beyond.</p>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+
+                                <li>• Seed funding opportunities</li>
+
+                                <li>• Series A investors</li>
+
+                                <li>• Angel investor networks</li>
+
+                            </ul>
+
+                            <button class="text-cyan-600 font-semibold hover:text-cyan-700">Explore Options →</button>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg p-8 border-l-4 border-emerald-500">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 icon-pop">
+
+                                🌟
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Accelerator Programs</h3>
+
+                            <p class="text-gray-600 mb-4">Join prestigious accelerator programs for mentorship and funding.</p>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-6">
+
+                                <li>• Techstars Hong Kong</li>
+
+                                <li>• Cyberport Incubation Programme</li>
+
+                                <li>• HKSTP Incubation Programme</li>
+
+                            </ul>
+
+                            <button class="text-emerald-600 font-semibold hover:text-emerald-700">Apply Now →</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- External Competitions -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">External Competitions</h2>
+
+                        <p class="text-xl text-gray-600">Showcase your innovation and compete for prizes</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 relative overflow-hidden">
+
+                                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80" alt="Global startup competition" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/80 to-indigo-500/80 flex items-center justify-center" style="display: none;">
+
+                                    <div class="text-white text-center">
+
+                                        <div class="text-4xl mb-2">🏆</div>
+
+                                        <div class="text-2xl font-bold">Global Competitions</div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-8">
+
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">International Startup Competitions</h3>
+
+                                <ul class="text-gray-600 space-y-3 mb-6">
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-blue-500 mr-2">•</span>
+
+                                        <span>Global Startup Awards Asia Pacific</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-blue-500 mr-2">•</span>
+
+                                        <span>RISE Conference Pitch Competition</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-blue-500 mr-2">•</span>
+
+                                        <span>TechCrunch Disrupt Battlefield</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-blue-500 mr-2">•</span>
+
+                                        <span>Seedstars World Competition</span>
+
+                                    </li>
+
+                                </ul>
+
+                                <button class="text-blue-600 font-semibold hover:text-blue-700">View All →</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 relative overflow-hidden">
+
+                                <img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" alt="Local startup pitch event" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/80 to-pink-500/80 flex items-center justify-center" style="display: none;">
+
+                                    <div class="text-white text-center">
+
+                                        <div class="text-4xl mb-2">🎯</div>
+
+                                        <div class="text-2xl font-bold">Local Competitions</div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-8">
+
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">Hong Kong Startup Competitions</h3>
+
+                                <ul class="text-gray-600 space-y-3 mb-6">
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-purple-500 mr-2">•</span>
+
+                                        <span>HKUST-Sino One Million Dollar Entrepreneurship Competition</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-purple-500 mr=2">•</span>
+
+                                        <span>Cyberport Creative Micro Fund</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-purple-500 mr-2">•</span>
+
+                                        <span>HKSTP Elevator Pitch Competition</span>
+
+                                    </li>
+
+                                    <li class="flex items-start">
+
+                                        <span class="text-purple-500 mr-2">•</span>
+
+                                        <span>StartmeupHK Festival Pitch</span>
+
+                                    </li>
+
+                                </ul>
+
+                                <button class="text-purple-600 font-semibold hover:text-purple-700">Participate →</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- External Training & Workshops -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">External Training & Workshops</h2>
+
+                        <p class="text-xl text-gray-600">Enhance your skills with professional development opportunities</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white text-2xl mb-4 icon-pop">
+
+                                📚
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">Business Development</h3>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-4">
+
+                                <li>• Lean Startup Methodology</li>
+
+                                <li>• Business Model Canvas</li>
+
+                                <li>• Market Validation Techniques</li>
+
+                                <li>• Customer Development</li>
+
+                            </ul>
+
+                            <button class="text-orange-600 font-semibold hover:text-orange-700 text-sm">Find Courses →</button>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-2xl mb-4 icon-pop">
+
+                                💻
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">Technology Skills</h3>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-4">
+
+                                <li>• AI & Machine Learning</li>
+
+                                <li>• Blockchain Development</li>
+
+                                <li>• Mobile App Development</li>
+
+                                <li>• Data Analytics</li>
+
+                            </ul>
+
+                            <button class="text-green-600 font-semibold hover:text-green-700 text-sm">Explore Programs →</button>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl mb-4 icon-pop">
+
+                                🎨
+
+                            </div>
+
+                            <h3 class="text-lg font-bold text-gray-900 mb-3">Design & Marketing</h3>
+
+                            <ul class="text-sm text-gray-600 space-y-2 mb-4">
+
+                                <li>• UI/UX Design</li>
+
+                                <li>• Digital Marketing</li>
+
+                                <li>• Brand Development</li>
+
+                                <li>• Content Strategy</li>
+
+                            </ul>
+
+                            <button class="text-indigo-600 font-semibold hover:text-indigo-700 text-sm">Join Workshops →</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- External Surveys -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">External Surveys</h2>
+
+                        <p class="text-xl text-gray-600">Participate in research and share your entrepreneurial insights</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                        <div class="bg-white rounded-2xl shadow-lg p-8">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 icon-pop">
+
+                                📊
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Startup Ecosystem Survey 2024</h3>
+
+                            <p class="text-gray-600 mb-6">Help us understand the current state of Hong Kong's startup ecosystem. Your insights will contribute to policy recommendations and ecosystem development.</p>
+
+                            <div class="flex items-center justify-between">
+
+                                <span class="text-sm text-gray-500">Duration: 10-15 minutes</span>
+
+                                <button class="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors">Take Survey</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg p-8">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mb-6 icon-pop">
+
+                                🔍
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Innovation Trends Research</h3>
+
+                            <p class="text-gray-600 mb-6">Share your perspective on emerging technologies and innovation trends. Results will be published in our annual innovation report.</p>
+
+                            <div class="flex items-center justify-between">
+
+                                <span class="text-sm text-gray-500">Duration: 5-8 minutes</span>
+
+                                <button class="bg-cyan-600 text-white px-6 py-2 rounded-full hover:bg-cyan-700 transition-colors">Participate</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- News and Activities Page -->
+
+    <div id="events2025Page" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEventsPage()" class="text-teal-600 font-semibold">News and Activities</a>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">News and Activities</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">Fostering innovation and entrepreneurship through engaging experiences</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <!-- AY2025/26 Section -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Academic Year 2025/26</h2>
+
+                        <p class="text-xl text-gray-600">Upcoming News and Activities</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">SEP</div>
+
+                                    <div class="text-5xl font-bold">15</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Innovation Kickoff 2025</h3>
+
+                                <p class="text-gray-600 mb-4">Start your entrepreneurial journey with our annual kickoff event.</p>
+
+                                <button class="text-teal-600 font-semibold hover:text-teal-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">OCT</div>
+
+                                    <div class="text-5xl font-bold">20</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Tech Startup Workshop</h3>
+
+                                <p class="text-gray-600 mb-4">Learn the fundamentals of building a tech startup from industry experts.</p>
+
+                                <button class="text-cyan-600 font-semibold hover:text-cyan-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">NOV</div>
+
+                                    <div class="text-5xl font-bold">12</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Pitch Competition 2025</h3>
+
+                                <p class="text-gray-600 mb-4">Present your innovative ideas and compete for funding opportunities.</p>
+
+                                <button class="text-emerald-600 font-semibold hover:text-emerald-700">Learn More →</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- AY2024/25 Section -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Academic Year 2024/25</h2>
+
+                        <p class="text-xl text-gray-600">Current year Past Events</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">MAR</div>
+
+                                    <div class="text-5xl font-bold">15</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Startup Pitch Competition 2024</h3>
+
+                                <p class="text-gray-600 mb-4">Over 50 innovative startups competed for the grand prize.</p>
+
+                                <span class="text-cyan-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">FEB</div>
+
+                                    <div class="text-5xl font-bold">20</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Innovation Workshop Series</h3>
+
+                                <p class="text-gray-600 mb-4">A week-long intensive workshop on design thinking.</p>
+
+                                <span class="text-blue-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">JAN</div>
+
+                                    <div class="text-5xl font-bold">10</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Tech Entrepreneur Summit</h3>
+
+                                <p class="text-gray-600 mb-4">Industry leaders shared insights on technology trends.</p>
+
+                                <span class="text-indigo-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- AY2023/24 Section -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Academic Year 2023/24</h2>
+
+                        <p class="text-xl text-gray-600">Previous year achievements</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">MAY</div>
+
+                                    <div class="text-5xl font-bold">25</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Annual Innovation Fair 2023</h3>
+
+                                <p class="text-gray-600 mb-4">Showcasing student innovations and research projects.</p>
+
+                                <span class="text-blue-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">APR</div>
+
+                                    <div class="text-5xl font-bold">18</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Entrepreneurship Bootcamp</h3>
+
+                                <p class="text-gray-600 mb-4">Intensive 3-day program for aspiring entrepreneurs.</p>
+
+                                <span class="text-indigo-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-3xl font-bold">MAR</div>
+
+                                    <div class="text-5xl font-bold">08</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <h3 class="text-xl font-bold mb-2">Women in Tech Conference</h3>
+
+                                <p class="text-gray-600 mb-4">Celebrating female leaders in technology and innovation.</p>
+
+                                <span class="text-purple-600 font-semibold">Completed</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Past Events AY2025/26 Page -->
+
+    <div id="news2025Page" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-teal-600 font-semibold cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Past Events AY2025/26</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">Latest achievements and developments</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Event Recaps AY2025/26</h2>
+
+                        <p class="text-xl text-gray-600">Past Events from our upcoming News and Activities</p>
+
+                    </div>
+
+                   
+
+                    <!-- Placeholder for future content -->
+
+                    <div class="bg-white rounded-3xl shadow-lg p-12 text-center">
+
+                        <div class="text-6xl mb-6">🚀</div>
+
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Coming Soon</h3>
+
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+
+                            Event recaps and Past Events for Academic Year 2025/26 will be published here as events take place.
+
+                            Stay tuned for exciting updates about our innovation activities and achievements!
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Past Events AY2024/25 Page -->
+
+    <div id="news2024Page" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-teal-600 font-semibold cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-cyan-500 to-blue-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Past Events AY2024/25</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">Current year Past Events and achievements</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Event Recaps AY2024/25</h2>
+
+                        <p class="text-xl text-gray-600">Past Events from our recent News and Activities</p>
+
+                    </div>
+
+                   
+
+                    <!-- Featured Event Recap -->
+
+                    <div class="mb-12">
+
+                        <article class="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+                            <div class="md:flex">
+
+                                <div class="md:w-2/5 h-80 bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+
+                                    <div class="text-white text-center">
+
+                                        <div class="text-6xl mb-4">🏆</div>
+
+                                        <div class="text-2xl font-bold">Featured Event</div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="md:w-3/5 p-8">
+
+                                    <div class="flex items-center mb-4">
+
+                                        <span class="px-3 py-1 bg-cyan-100 text-cyan-700 text-sm rounded-full mr-3">Competition</span>
+
+                                        <span class="text-gray-500">March 20, 2024</span>
+
+                                    </div>
+
+                                    <h3 class="text-3xl font-bold text-gray-900 mb-4">Record-Breaking Pitch Competition 2024</h3>
+
+                                    <p class="text-gray-700 leading-relaxed mb-6">
+
+                                        Our annual pitch competition reached new heights this year with 75 innovative startups presenting their groundbreaking ideas. The event showcased remarkable diversity in sectors ranging from AI and healthcare to sustainable technology and fintech.
+
+                                    </p>
+
+                                    <div class="grid grid-cols-3 gap-4 mb-6">
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">75</div>
+
+                                            <div class="text-sm text-gray-600">Participants</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">$500K</div>
+
+                                            <div class="text-sm text-gray-600">Prize Pool</div>
+
+                                        </div>
+
+                                        <div class="text-center">
+
+                                            <div class="text-2xl font-bold text-cyan-600">15</div>
+
+                                            <div class="text-sm text-gray-600">Judges</div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <button class="bg-cyan-600 text-white px-6 py-3 rounded-full hover:bg-cyan-700 transition-colors">Read Full Recap →</button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                   
+
+                    <!-- Event Recap Grid -->
+
+                    <div class="grid md:grid-cols-2 gap-8">
+
+                        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-4xl mb-2">🎓</div>
+
+                                    <div class="text-xl font-bold">Workshop Series</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <div class="flex items-center mb-3">
+
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full mr-3">Workshop</span>
+
+                                    <span class="text-gray-500 text-sm">February 10, 2024</span>
+
+                                </div>
+
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Innovation Workshop Series Success</h3>
+
+                                <p class="text-gray-600 mb-4">Our intensive design thinking workshop attracted 120+ participants who learned cutting-edge innovation methodologies from industry experts.</p>
+
+                                <div class="flex justify-between items-center">
+
+                                    <div class="text-sm text-gray-500">120+ Attendees</div>
+
+                                    <button class="text-blue-600 font-semibold hover:text-blue-700">View Recap →</button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                       
+
+                        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+
+                                <div class="text-white text-center">
+
+                                    <div class="text-4xl mb-2">🤝</div>
+
+                                    <div class="text-xl font-bold">Alumni Network</div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="p-6">
+
+                                <div class="flex items-center mb-3">
+
+                                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm rounded-full mr-3">Success Story</span>
+
+                                    <span class="text-gray-500 text-sm">January 15, 2024</span>
+
+                                </div>
+
+                                <h3 class="text-xl font-bold text-gray-900 mb-3">Alumni Funding Milestone</h3>
+
+                                <p class="text-gray-600 mb-4">Three CIE alumni companies successfully secured Series A funding, raising over $10M combined and creating 50+ new jobs.</p>
+
+                                <div class="flex justify-between items-center">
+
+                                    <div class="text-sm text-gray-500">$10M+ Raised</div>
+
+                                    <button class="text-emerald-600 font-semibold hover:text-emerald-700">Read Stories →</button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                   
+
+                    <!-- More Event Recaps -->
+
+                    <div class="mt-12">
+
+                        <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">More Event Past Events</h3>
+
+                        <div class="space-y-6">
+
+                            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+
+                                <div class="flex items-start justify-between">
+
+                                    <div class="flex-1">
+
+                                        <div class="flex items-center mb-2">
+
+                                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full mr-3">Networking</span>
+
+                                            <span class="text-gray-500 text-sm">December 8, 2023</span>
+
+                                        </div>
+
+                                        <h4 class="text-lg font-bold text-gray-900 mb-2">Tech Entrepreneur Summit 2023</h4>
+
+                                        <p class="text-gray-600">Industry leaders shared insights on emerging technologies and future trends with 200+ attendees.</p>
+
+                                    </div>
+
+                                    <button class="text-purple-600 font-semibold hover:text-purple-700 ml-4">View →</button>
+
+                                </div>
+
+                            </div>
+
+                           
+
+                            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
+
+                                <div class="flex items-start justify-between">
+
+                                    <div class="flex-1">
+
+                                        <div class="flex items-center mb-2">
+
+                                            <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full mr-3">Mentorship</span>
+
+                                            <span class="text-gray-500 text-sm">November 22, 2023</span>
+
+                                        </div>
+
+                                        <h4 class="text-lg font-bold text-gray-900 mb-2">Mentor-Mentee Matching Event</h4>
+
+                                        <p class="text-gray-600">Successfully matched 45 startups with experienced mentors from various industries.</p>
+
+                                    </div>
+
+                                    <button class="text-orange-600 font-semibold hover:text-orange-700 ml-4">View →</button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Past Events AY2023/24 Page -->
+
+    <div id="news2023Page" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="hidden md:flex space-x-8">
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">
+
+                                About CIE
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showAboutPage('overview')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Overview & Mission</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('leadership')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Leadership Messages</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showAboutPage('team')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">Our Team</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="relative group">   <a href="#" class="text-gray-700 hover:text-teal-600 transition-colors cursor-pointer">     News and Activities   </a>   <div class="absolute top-full left-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">     <div class="p-2">       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">         <div class="font-semibold text-lg">Start-up Explorer</div>         <div class="text-sm text-gray-500">Discover entrepreneurial potential</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK x HKSTP Co-Ideation Programme</div>         <div class="text-sm text-gray-500">University-industry collaboration</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">         <div class="font-semibold text-lg">HSUHK Entrepreneurship Challenge</div>         <div class="text-sm text-gray-500">Annual startup competition</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-700 transition-all duration-200">         <div class="font-semibold text-lg">GBA Youth Start-up Programme</div>         <div class="text-sm text-gray-500">Greater Bay Area innovation</div>       </a>       <a href="#" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 hover:text-purple-700 transition-all duration-200">         <div class="font-semibold text-lg">And more</div>         <div class="text-sm text-gray-500">Additional programs & opportunities</div>       </a>     </div>   </div> </div>
+
+                        <a href="#" onclick="showStartupStoriesPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Start-up Stories</a>
+
+                        <div class="relative group">
+
+                            <a href="#" class="text-teal-600 font-semibold cursor-pointer">
+
+                                Past Events
+
+                            </a>
+
+                            <div class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+
+                                <div class="p-2">
+
+                                    <a href="#" onclick="showNewsPage('2025')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 hover:text-teal-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2025/26</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2024')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 hover:text-cyan-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2024/25</div>
+
+                                    </a>
+
+                                    <a href="#" onclick="showNewsPage('2023')" class="block p-4 rounded-xl text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-700 transition-all duration-200">
+
+                                        <div class="font-semibold text-lg">AY2023/24</div>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <a href="#" onclick="showEcosystemPage()" class="text-gray-700 hover:text-teal-600 transition-colors">Ecosystem</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+       
+
+        <div class="pt-20">
+
+            <section class="py-20 bg-gradient-to-r from-blue-500 to-indigo-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Past Events AY2023/24</h1>
+
+                    <p class="text-xl md:text-2xl mb-8">Previous year milestones and achievements</p>
+
+                </div>
+
+            </section>
+
+           
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Event Recaps AY2023/24</h2>
+
+                        <p class="text-xl text-gray-600">Past Events from our milestone News and Activities</p>
+
+                    </div>
+
+                   
+
+                    <div class="space-y-8">
+
+                        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="md:flex">
+
+                                <div class="md:w-1/3 h-64 bg-gradient-to-br from-blue-500 to-indigo-500"></div>
+
+                                <div class="md:w-2/3 p-8">
+
+                                    <div class="text-sm text-blue-600 font-semibold mb-2">June 15, 2023</div>
+
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">CIE Celebrates 5th Anniversary</h3>
+
+                                    <p class="text-gray-600 mb-4">Looking back at five years of fostering innovation and entrepreneurship at HSUHK with special celebration events and alumni gatherings.</p>
+
+                                    <button class="text-blue-600 font-semibold hover:text-blue-700">Read More →</button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                       
+
+                        <article class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+                            <div class="md:flex">
+
+                                <div class="md:w-1/3 h-64 bg-gradient-to-br from-indigo-500 to-purple-500"></div>
+
+                                <div class="md:w-2/3 p-8">
+
+                                    <div class="text-sm text-indigo-600 font-semibold mb-2">May 8, 2023</div>
+
+                                    <h3 class="text-2xl font-bold text-gray-900 mb-4">International Innovation Exchange</h3>
+
+                                    <p class="text-gray-600 mb-4">CIE students participated in global innovation exchange program with partner universities, fostering international collaboration.</p>
+
+                                    <button class="text-indigo-600 font-semibold hover:text-indigo-700">Read More →</button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- About CIE Pages (Hidden by default) -->
+
+    <!-- Overview & Mission Page -->
+
+    <div id="aboutOverviewPage" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <!-- About Page Navigation -->
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-16 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+
+                                CIE
+
+                            </div>
+
+                        </button>
+
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+
+                        <div class="hidden md:flex space-x-2">
+
+                            <button onclick="showAboutPage('overview')" class="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Overview</button>
+
+                            <button onclick="showAboutPage('leadership')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Leadership</button>
+
+                            <button onclick="showAboutPage('team')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Team</button>
+
+                        </div>
+
+                        <button onclick="hideAboutPage()" class="text-gray-700 hover:text-teal-600 transition-colors">
+
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+ 
+
+        <!-- Overview Page Content -->
+
+        <div class="pt-20">
+
+            <!-- Hero Section -->
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Overview & Mission</h1>
+
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+
+                        Centre for Innovation & Entrepreneurship at The Hang Seng University of Hong Kong
+
+                    </p>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- About CIE Overview -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+                        <!-- Left Side - Introduction -->
+
+                        <div>
+
+                            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1084&q=80" alt="Innovation center workspace" class="w-full h-64 object-cover rounded-2xl mb-8" onerror="this.style.display='none';">
+
+                            <h2 class="text-4xl font-bold text-gray-900 mb-6">Who We Are</h2>
+
+                            <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+
+                                <p>
+
+                                    <strong>Established in 2018</strong>, the Centre for Innovation and Entrepreneurship (CIE) is dedicated to nurturing aspiring young entrepreneurs and fostering innovation talent within the HSUHK community.
+
+                                </p>
+
+                                <p>
+
+                                    We empower young people by promoting entrepreneurial spirit, innovative thinking, and creativity through comprehensive experiential learning opportunities.
+
+                                </p>
+
+                                <p>
+
+                                    Our centre serves as a dynamic hub where academic excellence meets real-world application, creating an ecosystem that supports the entire entrepreneurial journey from concept to commercialization.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+ 
+
+                        <!-- Right Side - Mission -->
+
+                        <div class="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-8">
+
+                            <div class="flex items-start space-x-4 mb-6">
+
+                                <div class="text-4xl">🎯</div>
+
+                                <h3 class="text-2xl font-bold text-gray-900">Our Mission</h3>
+
+                            </div>
+
+                            <div class="space-y-4 text-gray-700 leading-relaxed mb-6">
+
+                                <p>
+
+                                    CIE cultivates entrepreneurial mindsets across HSUHK through comprehensive training programs, expert mentorship, funding support, dynamic networking events, inspiring guest talks, immersive company visits, and competitive challenges.
+
+                                </p>
+
+                                <p>
+
+                                    We bridge the gap between academic knowledge and real-world application by providing students and alumni with practical skills, industry connections, and the confidence to transform innovative ideas into successful ventures.
+
+                                </p>
+
+                                <p>
+
+                                    Our holistic approach encompasses every stage of the entrepreneurial journey — from initial ideation and market validation to prototype development, business model refinement, and scaling strategies.
+
+                                </p>
+
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-4 mb-6">
+
+                                <div class="text-center p-3 bg-white rounded-lg">
+
+                                    <div class="text-xl mb-1">💡</div>
+
+                                    <p class="text-xs font-semibold text-gray-700">Innovation</p>
+
+                                </div>
+
+                                <div class="text-center p-3 bg-white rounded-lg">
+
+                                    <div class="text-xl mb-1">🚀</div>
+
+                                    <p class="text-xs font-semibold text-gray-700">Entrepreneurship</p>
+
+                                </div>
+
+                                <div class="text-center p-3 bg-white rounded-lg">
+
+                                    <div class="text-xl mb-1">🌍</div>
+
+                                    <p class="text-xs font-semibold text-gray-700">Impact</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="bg-white rounded-lg p-4">
+
+                                <h4 class="font-semibold text-gray-900 mb-2">Our Core Values</h4>
+
+                                <ul class="text-sm text-gray-600 space-y-1">
+
+                                    <li>• Fostering creative problem-solving and innovative thinking</li>
+
+                                    <li>• Building sustainable and impactful business solutions</li>
+
+                                    <li>• Creating collaborative networks for mutual growth</li>
+
+                                    <li>• Promoting ethical entrepreneurship and social responsibility</li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- What We Offer -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
+
+                        <p class="text-xl text-gray-600">Comprehensive support for your entrepreneurial journey</p>
+
+                    </div>
+
+                   
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                🎓
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Training Programs</h3>
+
+                            <p class="text-gray-600">Comprehensive workshops and courses covering business fundamentals, innovation methodologies, and entrepreneurial skills.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                👥
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Mentorship</h3>
+
+                            <p class="text-gray-600">One-on-one guidance from experienced entrepreneurs, industry experts, and successful business leaders.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                💰
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Funding Support</h3>
+
+                            <p class="text-gray-600">Access to seed funding, grants, and connections with investors to help bring your ideas to market.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                🌐
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Networking Events</h3>
+
+                            <p class="text-gray-600">Regular meetups, conferences, and networking sessions to connect with peers, partners, and potential collaborators.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                🏢
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Company Visits</h3>
+
+                            <p class="text-gray-600">Immersive experiences at leading companies to understand real-world business operations and industry trends.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg">
+
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl mb-6">
+
+                                🏆
+
+                            </div>
+
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Competitions</h3>
+
+                            <p class="text-gray-600">Pitch competitions, hackathons, and innovation challenges to test your ideas and win recognition.</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Contact Info -->
+
+            <section class="py-20 bg-gray-900 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h2 class="text-3xl font-bold mb-8">Get Involved</h2>
+
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+
+                        Ready to join our innovation community? Contact us to learn more about our programs and opportunities.
+
+                    </p>
+
+                    <button onclick="hideAboutPage(); document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
+
+                            class="bg-gradient-to-r from-teal-500 to-cyan-500 px-8 py-3 rounded-full font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all">
+
+                        Contact Us
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Leadership Messages Page -->
+
+    <div id="aboutLeadershipPage" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <!-- Leadership Page Navigation -->
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg mr-3">
+
+                                CIE
+
+                            </div>
+
+                            <span class="text-xl font-bold text-gray-900">Leadership Messages</span>
+
+                        </button>
+
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+
+                        <div class="hidden md:flex space-x-2">
+
+                            <button onclick="showAboutPage('overview')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Overview</button>
+
+                            <button onclick="showAboutPage('leadership')" class="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Leadership</button>
+
+                            <button onclick="showAboutPage('team')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Team</button>
+
+                        </div>
+
+                        <button onclick="hideAboutPage()" class="text-gray-700 hover:text-teal-600 transition-colors">
+
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+ 
+
+        <!-- Leadership Page Content -->
+
+        <div class="pt-20">
+
+            <!-- Hero Section -->
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Leadership Messages</h1>
+
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+
+                        Guiding CIE's mission to foster innovation and entrepreneurship
+
+                    </p>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Message from Director -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-12">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Message from the Director</h2>
+
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-12 shadow-lg max-w-5xl mx-auto">
+
+                        <div class="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+
+                            <div class="flex-shrink-0">
+
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=387&q=80" alt="Prof. Fu Ho Ying, Jeanne" class="w-32 h-32 rounded-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                                <div class="w-32 h-32 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-4xl font-bold" style="display: none;">
+
+                                    DR
+
+                                </div>
+
+                                <div class="text-center mt-4">
+
+                                    <h3 class="text-xl font-bold text-gray-900">Prof. Fu Ho Ying, Jeanne</h3>
+
+                                    <p class="text-gray-600">Director, CIE</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <div class="text-6xl text-teal-500 mb-4">"</div>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic mb-6">
+
+                                    Welcome to the Centre for Innovation and Entrepreneurship (CIE)! We are thrilled to have you here, where our primary goal is to nurture and empower passionate students and alumni like you, to drive progress and development through innovative and entrepreneurial initiatives. CIE serves as a vibrant hub, bringing together brilliant minds dedicated to advancing humanity through creative solutions and groundbreaking ideas..
+
+                                </p>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic mb-6">
+
+                                    At CIE, you will have access to an array of resources, including faculty support, professional mentorship, and training workshops tailored to startups and social innovation. We also offer exciting seed-funding opportunities, co-working spaces, and mixer programmes that foster valuable networking events.
+
+                                </p>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic">
+
+                                    I invite you to join us on this exciting journey of discovery, creation, and impact. Every successful business begins with a single idea, and whether you aspire to be an entrepreneur or are passionate about launching a social enterprise, CIE is here to support you on your journey. Our centre is well-connected with startup circles, financial institutions, government bodies, and professional experts eager to offer their insights and guidance. Since 2018, we have supported more than 11,000 students and alumni in their venture experience.
+
+                                </p>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic">
+
+                                    Remember, every great venture starts small, but with big dreams. Join us at CIE, and you will find a community of like-minded individuals who share your ambitions and drive for innovation. Welcome aboard!
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Greeting from Associate Director -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-12">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Greeting from the Associate Director</h2>
+
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-12 shadow-lg max-w-5xl mx-auto">
+
+                        <div class="flex flex-col md:flex-row-reverse items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 md:space-x-reverse">
+
+                            <div class="flex-shrink-0">
+
+                                <div class="w-32 h-32 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-4xl font-bold">
+
+                                    AD
+
+                                </div>
+
+                                <div class="text-center mt-4">
+
+                                    <h3 class="text-xl font-bold text-gray-900">Dr Chung Ho Ying, Holly</h3>
+
+                                    <p class="text-gray-600">Associate Director, CIE</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <div class="text-6xl text-cyan-500 mb-4">"</div>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic mb-6">
+
+                                    As Associate Director of CIE, I am passionate about nurturing the entrepreneurial mindset in our students and faculty. Innovation is not just about technology; it's about finding creative solutions to everyday challenges and making a meaningful difference in people's lives.
+
+                                </p>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic mb-6">
+
+                                    Our centre provides a supportive ecosystem where ideas can be tested, refined, and brought to market. We work closely with industry partners, investors, and mentors to ensure our entrepreneurs have access to the resources they need to succeed.
+
+                                </p>
+
+                                <p class="text-lg text-gray-700 leading-relaxed italic">
+
+                                    Whether you're a student with a groundbreaking idea or a faculty member looking to commercialize your research, CIE is here to support your entrepreneurial journey.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Contact Info -->
+
+            <section class="py-20 bg-gray-900 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h2 class="text-3xl font-bold mb-8">Connect with Our Leadership</h2>
+
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+
+                        Have questions or want to learn more about our vision? We'd love to hear from you.
+
+                    </p>
+
+                    <button onclick="hideAboutPage(); document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
+
+                            class="bg-gradient-to-r from-teal-500 to-cyan-500 px-8 py-3 rounded-full font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all">
+
+                        Contact Us
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Team Page -->
+
+    <div id="aboutTeamPage" class="fixed inset-0 bg-white z-50 hidden overflow-y-auto">
+
+        <!-- Team Page Navigation -->
+
+        <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 shadow-sm">
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="flex justify-between items-center h-16">
+
+                    <div class="flex items-center">
+
+                        <button onclick="goToHomepage()" class="flex items-center hover:opacity-80 transition-opacity">
+
+                            <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-lg mr-3">
+
+                                CIE
+
+                            </div>
+
+                            <span class="text-xl font-bold text-gray-900">Our Team</span>
+
+                        </button>
+
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+
+                        <div class="hidden md:flex space-x-2">
+
+                            <button onclick="showAboutPage('overview')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Overview</button>
+
+                            <button onclick="showAboutPage('leadership')" class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-sm font-medium">Leadership</button>
+
+                            <button onclick="showAboutPage('team')" class="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium">Team</button>
+
+                        </div>
+
+                        <button onclick="hideAboutPage()" class="text-gray-700 hover:text-teal-600 transition-colors">
+
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+                            </svg>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+ 
+
+        <!-- Team Page Content -->
+
+        <div class="pt-20">
+
+            <!-- Hero Section -->
+
+            <section class="py-20 bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6">Our Team</h1>
+
+                    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+
+                        Dedicated professionals committed to fostering innovation and entrepreneurship
+
+                    </p>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Leadership Team -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Leadership Team</h2>
+
+                        <p class="text-xl text-gray-600">Guiding our vision and strategic direction</p>
+
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+
+                            <div class="w-24 h-24 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+
+                                DR
+
+                            </div>
+
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Prof. Fu Ho Ying, Jeanne</h4>
+
+                            <p class="text-teal-600 font-semibold">Director</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-8 shadow-lg text-center">
+
+                            <div class="w-24 h-24 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+
+                                AD
+
+                            </div>
+
+                            <h4 class="text-xl font-bold text-gray-900 mb-2">Dr Chung Ho Ying, Holly</h4>
+
+                            <p class="text-cyan-600 font-semibold">Associate Director</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Advisory Committee -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Advisory Committee</h2>
+
+                        <p class="text-xl text-gray-600">Industry experts providing strategic guidance</p>
+
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                DC
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr David Chui</h4>
+
+                            <p class="text-blue-600 font-semibold text-sm">Head and Associate Professor (Practice) of EAF</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                DH
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Prof Desmond Hui</h4>
+
+                            <p class="text-indigo-600 font-semibold text-sm">Head and Professor of AAD</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                BH
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Mr Brian Ho</h4>
+
+                            <p class="text-purple-600 font-semibold text-sm">Executive Director & Head of Finance</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                MH
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Measure Hung</h4>
+
+                            <p class="text-emerald-600 font-semibold text-sm">Chairman of Mobicon Group Ltd.</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                KL
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Mr Kevin Lee</h4>
+
+                            <p class="text-orange-600 font-semibold text-sm">General Partner</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                FY
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Mr Fred Yung</h4>
+
+                            <p class="text-rose-600 font-semibold text-sm">Founder of Smart Start</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Executive Committee -->
+
+            <section class="py-20">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Executive Committee</h2>
+
+                        <p class="text-xl text-gray-600">Operational leadership and program management</p>
+
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                EC
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Eden Chow</h4>
+
+                            <p class="text-teal-600 font-semibold text-sm">Senior Lecturer of ACY</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                KH
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Kelvin Ho</h4>
+
+                            <p class="text-cyan-600 font-semibold text-sm">Senior Lecturer of MKT</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                KK
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Kenneth Kwong</h4>
+
+                            <p class="text-blue-600 font-semibold text-sm">Assistant Professor of MKT</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                CK
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Chan Chi Kit</h4>
+
+                            <p class="text-indigo-600 font-semibold text-sm">Associate Professor of SCOM</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                DM
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Daniel Mo</h4>
+
+                            <p class="text-purple-600 font-semibold text-sm">Associate Dean (Engagement) of SDSC</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                PM
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Patrick Mok</h4>
+
+                            <p class="text-emerald-600 font-semibold text-sm">Assistant Professor of AAD</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                SC
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dr Siu Sai Cheong</h4>
+
+                            <p class="text-orange-600 font-semibold text-sm">Associate Professor of STFL</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Support Team -->
+
+            <section class="py-20 bg-gray-50">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                    <div class="text-center mb-16">
+
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Support Team</h2>
+
+                        <p class="text-xl text-gray-600">Dedicated professionals ensuring smooth operations</p>
+
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                DF
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Dennis Fung</h4>
+
+                            <p class="text-amber-600 font-semibold text-sm">Assistant Project Officer</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                LL
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Linda Lin</h4>
+
+                            <p class="text-amber-600 font-semibold text-sm">Assistant Project Officer</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                EW
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Esther Woo</h4>
+
+                            <p class="text-indigo-600 font-semibold text-sm">Senior Executive Officer</p>
+
+                        </div>
+
+                       
+
+                        <div class="bg-white rounded-2xl p-6 shadow-lg text-center">
+
+                            <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold mx-auto mb-4">
+
+                                MK
+
+                            </div>
+
+                            <h4 class="text-lg font-bold text-gray-900 mb-2">Michel Kwan</h4>
+
+                            <p class="text-indigo-600 font-semibold text-sm">Executive Assistant</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+ 
+
+            <!-- Contact Info -->
+
+            <section class="py-20 bg-gray-900 text-white">
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+                    <h2 class="text-3xl font-bold mb-8">Start Your Innovation Journey</h2>
+
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+
+                        Ready to turn your ideas into reality? Join our entrepreneurship community and get the support you need to build your startup.
+
+                    </p>
+
+                    <button onclick="hideAboutPage(); document.getElementById('contact').scrollIntoView({behavior: 'smooth'})"
+
+                            class="bg-gradient-to-r from-teal-500 to-cyan-500 px-8 py-3 rounded-full font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all">
+
+                        Contact Us
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+ 
+
+    <!-- Footer -->
+
+    <footer class="bg-black text-white py-8">
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+            <div class="flex items-center justify-center mb-4">
+
+                <div class="w-16 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+
+                    CIE
+
+                </div>
+
+            </div>
+
+            <p class="text-gray-400">© 2024 Centre for Innovation and Entrepreneurship. All rights reserved.</p>
+
+        </div>
+
+    </footer>
+
+    </div> <!-- End Main Content -->
+
+ 
+
+    <script>
+
+    function handleImageError(img) {
+
+        img.style.display = 'none';
+
+        const fallback = img.nextElementSibling;
+
+        if (fallback && fallback.classList.contains('gradient-overlay')) {
+
+            fallback.style.display = 'flex';
+
+        }
+
+    }
+
+ 
+
+     let currentSlide = {
+
+            heroSlider: 0,
+
+            eventsSlider: 0
+
+        };
+
+ 
+
+        function goToSlide(index, sliderId) {
+
+            const slider = document.getElementById(sliderId);
+
+            currentSlide[sliderId] = index;
+
+            slider.style.transform = `translateX(-${index * 100}%)`;
+
+        }
+
+ 
+
+        function nextSlide(sliderId) {
+
+            const slider = document.getElementById(sliderId);
+
+            const totalSlides = slider.children.length;
+
+            currentSlide[sliderId] = (currentSlide[sliderId] + 1) % totalSlides;
+
+            slider.style.transform = `translateX(-${currentSlide[sliderId] * 100}%)`;
+
+        }
+
+ 
+
+        // Auto-advance sliders
+
+        setInterval(() => {
+
+            nextSlide('heroSlider');
+
+        }, 5000);
+
+ 
+
+        setInterval(() => {
+
+            nextSlide('eventsSlider');
+
+        }, 4000);
+
+ 
+
+        // Enhanced scroll animations - always trigger when scrolling down
+
+        let animationFrame;
+
+        let isAnimating = false;
+
+       
+
+        function animateOnScroll() {
+
+            if (isAnimating) return;
+
+           
+
+            isAnimating = true;
+
+            animationFrame = requestAnimationFrame(() => {
+
+                const elements = document.querySelectorAll('.animate-on-scroll:not(.animated)');
+
+                elements.forEach(element => {
+
+                    const elementTop = element.getBoundingClientRect().top;
+
+                    const elementVisible = 100;
+
+                   
+
+                    if (elementTop < window.innerHeight - elementVisible) {
+
+                        element.classList.add('animated');
+
+                    }
+
+                });
+
+                isAnimating = false;
+
+            });
+
+        }
+
+       
+
+        // Reset animations when elements go out of view (for re-triggering)
+
+        function resetAnimations() {
+
+            if (isAnimating) return;
+
+           
+
+            isAnimating = true;
+
+            animationFrame = requestAnimationFrame(() => {
+
+                const elements = document.querySelectorAll('.animate-on-scroll.animated');
+
+                elements.forEach(element => {
+
+                    const elementTop = element.getBoundingClientRect().top;
+
+                   
+
+                    // Reset if element is well above viewport
+
+                    if (elementTop < -200) {
+
+                        element.classList.remove('animated');
+
+                    }
+
+                });
+
+                isAnimating = false;
+
+            });
+
+        }
+
+ 
+
+        // Smooth scroll for navigation links
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+            anchor.addEventListener('click', function (e) {
+
+                e.preventDefault();
+
+                const target = document.querySelector(this.getAttribute('href'));
+
+                if (target) {
+
+                    target.scrollIntoView({
+
+                        behavior: 'smooth',
+
+                        block: 'start'
+
+                    });
+
+                }
+
+            });
+
+        });
+
+ 
+
+        // Throttled scroll event listener
+
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+
+            animateOnScroll();
+
+            resetAnimations();
+
+           
+
+            // Clear existing timeout
+
+            clearTimeout(scrollTimeout);
+
+           
+
+            // Set a timeout to run final cleanup
+
+            scrollTimeout = setTimeout(() => {
+
+                animateOnScroll();
+
+            }, 50);
+
+        }, { passive: true });
+
+ 
+
+        // Intersection Observer for better performance and smooth animations
+
+        const observerOptions = {
+
+            threshold: [0, 0.1, 0.2],
+
+            rootMargin: '0px 0px -100px 0px'
+
+        };
+
+ 
+
+        const observer = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+
+                    // Use smooth transition instead of animation class
+
+                    entry.target.classList.add('animated');
+
+                } else if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+
+                    // Reset when scrolled past
+
+                    entry.target.classList.remove('animated');
+
+                }
+
+            });
+
+        }, observerOptions);
+
+ 
+
+        // Initialize animations on page load
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Observe all elements that should animate
+
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+
+            elementsToAnimate.forEach(el => {
+
+                observer.observe(el);
+
+            });
+
+           
+
+            // Run initial animation check
+
+            setTimeout(() => {
+
+                animateOnScroll();
+
+            }, 100);
+
+        });
+
+ 
+
+        // Universal page management functions
+
+        function hideAllPages() {
+
+            // Hide all overlay pages
+
+            document.getElementById('events2025Page').classList.add('hidden');
+
+            document.getElementById('news2025Page').classList.add('hidden');
+
+            document.getElementById('news2024Page').classList.add('hidden');
+
+            document.getElementById('news2023Page').classList.add('hidden');
+
+            document.getElementById('startupStoriesPage').classList.add('hidden');
+
+            document.getElementById('ecosystemPage').classList.add('hidden');
+
+            document.getElementById('aboutOverviewPage').classList.add('hidden');
+
+            document.getElementById('aboutLeadershipPage').classList.add('hidden');
+
+            document.getElementById('aboutTeamPage').classList.add('hidden');
+
+        }
+
+ 
+
+        // Events page functions
+
+        function showEventsPage() {
+
+            hideAllPages();
+
+            document.getElementById('events2025Page').classList.remove('hidden');
+
+            document.body.style.overflow = 'hidden';
+
+        }
+
+ 
+
+        function hideEventsPage() {
+
+            document.getElementById('events2025Page').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+
+        }
+
+ 
+
+        // Past Events page functions
+
+        function showNewsPage(year = '2025') {
+
+            hideAllPages();
+
+           
+
+            // Show the requested year page
+
+            switch(year) {
+
+                case '2025':
+
+                    document.getElementById('news2025Page').classList.remove('hidden');
+
+                    break;
+
+                case '2024':
+
+                    document.getElementById('news2024Page').classList.remove('hidden');
+
+                    break;
+
+                case '2023':
+
+                    document.getElementById('news2023Page').classList.remove('hidden');
+
+                    break;
+
+                default:
+
+                    document.getElementById('news2025Page').classList.remove('hidden');
+
+            }
+
+           
+
+            document.body.style.overflow = 'hidden';
+
+        }
+
+ 
+
+        function hideNewsPage() {
+
+            document.getElementById('news2025Page').classList.add('hidden');
+
+            document.getElementById('news2024Page').classList.add('hidden');
+
+            document.getElementById('news2023Page').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+
+        }
+
+ 
+
+        // Startup Stories page functions
+
+        function showStartupStoriesPage() {
+
+            hideAllPages();
+
+            document.getElementById('startupStoriesPage').classList.remove('hidden');
+
+            document.body.style.overflow = 'hidden';
+
+        }
+
+ 
+
+        function hideStartupStoriesPage() {
+
+            document.getElementById('startupStoriesPage').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+
+        }
+
+ 
+
+        // Ecosystem page functions
+
+        function showEcosystemPage() {
+
+            hideAllPages();
+
+            document.getElementById('ecosystemPage').classList.remove('hidden');
+
+            document.body.style.overflow = 'hidden';
+
+        }
+
+ 
+
+        function hideEcosystemPage() {
+
+            document.getElementById('ecosystemPage').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+
+        }
+
+ 
+
+        // Homepage navigation function
+
+        function goToHomepage() {
+
+            hideAllPages();
+
+            document.body.style.overflow = 'auto';
+
+            // Scroll to top of homepage
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        }
+
+ 
+
+        // About page functions
+
+        function showAboutPage(page = 'overview') {
+
+            hideAllPages();
+
+           
+
+            // Show the requested page
+
+            switch(page) {
+
+                case 'overview':
+
+                    document.getElementById('aboutOverviewPage').classList.remove('hidden');
+
+                    break;
+
+                case 'leadership':
+
+                    document.getElementById('aboutLeadershipPage').classList.remove('hidden');
+
+                    break;
+
+                case 'team':
+
+                    document.getElementById('aboutTeamPage').classList.remove('hidden');
+
+                    break;
+
+                default:
+
+                    document.getElementById('aboutOverviewPage').classList.remove('hidden');
+
+            }
+
+           
+
+            document.body.style.overflow = 'hidden';
+
+        }
+
+ 
+
+        function hideAboutPage() {
+
+            document.getElementById('aboutOverviewPage').classList.add('hidden');
+
+            document.getElementById('aboutLeadershipPage').classList.add('hidden');
+
+            document.getElementById('aboutTeamPage').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+
+        }
+
+ 
+
+        function handleSubmit(event) {
+
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+
+            const email = document.getElementById('email').value;
+
+            const message = document.getElementById('message').value;
+
+           
+
+            if (name && email && message) {
+
+                // Create success message
+
+                const form = event.target;
+
+                form.innerHTML = `
+
+                    <div class="text-center py-8">
+
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+
+                            <span class="text-2xl">✓</span>
+
+                        </div>
+
+                        <h3 class="text-xl font-bold mb-2">Message Sent!</h3>
+
+                        <p class="text-gray-300">Thank you for your interest. We'll get back to you soon.</p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+ 
+
+        // Loading screen functionality
+
+        window.addEventListener('load', function() {
+
+            // Minimum loading time of 2.5 seconds for better user experience
+
+            setTimeout(function() {
+
+                const loadingScreen = document.getElementById('loadingScreen');
+
+                const mainContent = document.getElementById('mainContent');
+
+               
+
+                // Fade out loading screen
+
+                loadingScreen.classList.add('fade-out');
+
+               
+
+                // Show main content after loading screen fades
+
+                setTimeout(function() {
+
+                    mainContent.classList.add('show');
+
+                    // Remove loading screen from DOM after animation
+
+                    setTimeout(function() {
+
+                        loadingScreen.remove();
+
+                    }, 800);
+
+                }, 400);
+
+            }, 2500);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
